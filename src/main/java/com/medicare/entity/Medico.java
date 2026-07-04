@@ -6,11 +6,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Entidad Medico.
- * Relación 1:1 con PerfilMedico (Medico es el propietario de la FK).
- * Relación 1:N con Consulta.
- */
+// Entidad medico, tiene relacion 1:1 con perfil y 1:N con consultas
 @Entity
 @Table(name = "medicos")
 public class Medico {
@@ -25,13 +21,16 @@ public class Medico {
     @Column(nullable = false)
     private String apellido;
 
+    // numero de licencia unico por medico
     @Column(nullable = false, unique = true)
     private String licencia;
 
+    // cada medico tiene un solo perfil
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "perfil_id", referencedColumnName = "id")
     private PerfilMedico perfil;
 
+    // un medico puede tener muchas consultas
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("medico-consultas")
     private List<Consulta> consultas = new ArrayList<>();

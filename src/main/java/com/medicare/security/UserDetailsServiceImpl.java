@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Implementación de UserDetailsService que carga usuarios desde la base de datos.
- */
+// carga el usuario desde la base de datos para que spring security lo autentique
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -29,6 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "Usuario no encontrado: " + username));
 
+        // agrego el prefijo ROLE_ que necesita spring security
         SimpleGrantedAuthority authority =
                 new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name());
 

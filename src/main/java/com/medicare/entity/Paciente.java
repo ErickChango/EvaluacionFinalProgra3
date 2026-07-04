@@ -7,10 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Entidad Paciente.
- * Relación N:M con Medico a través de la entidad Consulta.
- */
+// Entidad paciente, se relaciona con medico a traves de consulta (N:M)
 @Entity
 @Table(name = "pacientes")
 public class Paciente {
@@ -25,6 +22,7 @@ public class Paciente {
     @Column(nullable = false)
     private String apellido;
 
+    // dni unico por paciente
     @Column(nullable = false, unique = true)
     private String dni;
 
@@ -35,6 +33,7 @@ public class Paciente {
 
     private String email;
 
+    // lista de consultas que tuvo el paciente
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("paciente-consultas")
     private List<Consulta> consultas = new ArrayList<>();

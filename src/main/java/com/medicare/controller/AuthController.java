@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Controlador de autenticación.
- * POST /api/auth/login -> valida credenciales y retorna info del usuario autenticado.
- */
+// endpoint para iniciar sesion
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
@@ -30,6 +27,7 @@ public class AuthController {
         String username = credenciales.get("username");
         String password = credenciales.get("password");
 
+        // verifico las credenciales con spring security
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );

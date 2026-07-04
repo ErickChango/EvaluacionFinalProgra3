@@ -3,10 +3,7 @@ package com.medicare.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-/**
- * Perfil con información de contacto y especialidad del médico.
- * Relación 1:1 con Medico.
- */
+// Perfil del medico con datos de contacto y especialidad
 @Entity
 @Table(name = "perfiles_medico")
 public class PerfilMedico {
@@ -26,6 +23,7 @@ public class PerfilMedico {
 
     private String direccion;
 
+    // referencia inversa al medico, se ignora en el JSON para evitar ciclos
     @OneToOne(mappedBy = "perfil")
     @JsonIgnore
     private Medico medico;

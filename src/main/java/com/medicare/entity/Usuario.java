@@ -2,10 +2,7 @@ package com.medicare.entity;
 
 import jakarta.persistence.*;
 
-/**
- * Entidad de usuario del sistema con soporte de roles ADMIN y USER.
- * Las contraseñas se almacenan cifradas con BCrypt.
- */
+// Usuario del sistema, puede ser ADMIN o USER
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -17,6 +14,7 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String username;
 
+    // contrasena guardada con bcrypt
     @Column(nullable = false)
     private String password;
 

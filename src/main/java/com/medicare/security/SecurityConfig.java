@@ -14,14 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Configuración de Spring Security.
- *
- * Reglas de acceso:
- *  - POST /api/auth/login  -> público
- *  - GET  /api/**          -> ADMIN y USER
- *  - POST, PUT, DELETE /api/** -> solo ADMIN
- */
+// configuracion de seguridad: roles, bcrypt y proteccion de endpoints
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -32,6 +25,7 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
+    // uso bcrypt para encriptar contrasenas
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -57,9 +51,13 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
             .authorizeHttpRequests(auth -> auth
+                // el login es publico
                 .requestMatchers("/api/auth/login").permitAll()
+                // consola h2 para desarrollo
                 .requestMatchers("/h2-console/**").permitAll()
+                // cualquier GET lo puede ver admin y user
                 .requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER")
+                // crear, editar y borrar solo admin
                 .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")

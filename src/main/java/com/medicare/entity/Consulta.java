@@ -5,11 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-/**
- * Entidad Consulta: concreta la relación N:M entre Medico y Paciente.
- * Un médico puede atender a muchos pacientes y un paciente puede ser atendido
- * por muchos médicos; cada consulta registra una ocurrencia de esa relación.
- */
+// Consulta medica, une a medico y paciente (relacion N:M)
 @Entity
 @Table(name = "consultas")
 public class Consulta {
@@ -27,11 +23,13 @@ public class Consulta {
     @Column(length = 2000)
     private String diagnostico;
 
+    // muchas consultas pertenecen a un medico
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medico_id", nullable = false)
     @JsonBackReference("medico-consultas")
     private Medico medico;
 
+    // muchas consultas pertenecen a un paciente
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id", nullable = false)
     @JsonBackReference("paciente-consultas")
